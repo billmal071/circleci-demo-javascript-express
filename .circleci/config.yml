@@ -3,8 +3,6 @@ version: 2.1
 commands:
   print_pipeline_id:
     description: "my first command"
-    docker:
-      - image: circleci/node:13.8.0
     steps:
       - run: echo ${CIRCLE_WORKFLOW_ID}
 
@@ -21,6 +19,8 @@ workflows:
 
 jobs:
   test-commands:
+    docker:
+      - image: circleci/node:13.8.0
     steps:
      - print_pipeline_id        
   save_hello_world_output:
