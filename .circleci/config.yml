@@ -10,14 +10,22 @@ workflows:
   version: 2
   build:
     jobs:
+      - fail-job
       # - build
-      - test-commands
+#       - test-commands
 #       - save_hello_world_output
 #       - print_output_file:
 #           requires:
 #             - save_hello_world_output
 
 jobs:
+  fail-job:
+    steps:
+      - run: return 1
+      - run: 
+          name: "fail job on purpose"
+          command: echo "failed job"
+          when: on_fail
   test-commands:
     docker:
       - image: circleci/node:13.8.0
@@ -25,7 +33,7 @@ jobs:
      - print_pipeline_id        
   save_hello_world_output:
     docker:
-      - image: circleci/node:10.16.3
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - run: echo "hello world" >> ~/output.txt
@@ -35,7 +43,7 @@ jobs:
             - output.txt
   print_output_file:
     docker:
-      - image: circleci/node:10.16.3
+      - image: circleci/node:13.8.0
     steps:
       - checkout
       - attach_workspace:
