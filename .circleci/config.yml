@@ -5,8 +5,30 @@ workflows:
   build:
     jobs:
       - build
+      - save_hello_world_output
+      - print_output_file:
+          requires:
+            - save_hello_world_output
 
 jobs:
+  save_hello_world_output:
+    docker:
+      - image: circleci/node:10.16.3
+    steps:
+      - checkout
+      - run: echo "hello world" >> output.txt
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - output.txt
+  print_output_file:
+    docker:
+      -image: circleci/node:10.16.3
+    steps:
+      - checkout
+      - attach_workspace:
+          at: ~/
+      - run: cat ~/output.txt
   build:
     working_directory: ~/mern-starter
     docker:
