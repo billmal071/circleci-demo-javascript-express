@@ -20,6 +20,8 @@ workflows:
 
 jobs:
   fail-job:
+    docker: 
+      - image: circleci/node:13.8.0
     steps:
       - run: exit 1
       - run: 
