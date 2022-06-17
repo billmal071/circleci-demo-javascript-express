@@ -1,16 +1,25 @@
 version: 2.1
 
+commands:
+  print_pipeline_id:
+    description: "my first command"
+    steps:
+      - run: echo $CIRCLE_WORKFLOW_ID
+
 workflows:
   version: 2
   build:
     jobs:
       # - build
-      - save_hello_world_output
-      - print_output_file:
-          requires:
-            - save_hello_world_output
+      - test-commands
+#       - save_hello_world_output
+#       - print_output_file:
+#           requires:
+#             - save_hello_world_output
 
 jobs:
+  test-commands:
+    print_pipeline_id        
   save_hello_world_output:
     docker:
       - image: circleci/node:10.16.3
