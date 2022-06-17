@@ -3,8 +3,10 @@ version: 2.1
 commands:
   print_pipeline_id:
     description: "my first command"
+    docker:
+      - image: circleci/node:13.8.0
     steps:
-      - run: echo $CIRCLE_WORKFLOW_ID
+      - run: echo ${CIRCLE_WORKFLOW_ID}
 
 workflows:
   version: 2
@@ -19,7 +21,8 @@ workflows:
 
 jobs:
   test-commands:
-    print_pipeline_id        
+    steps:
+     - print_pipeline_id        
   save_hello_world_output:
     docker:
       - image: circleci/node:10.16.3
